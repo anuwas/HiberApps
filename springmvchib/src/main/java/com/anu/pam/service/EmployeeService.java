@@ -10,8 +10,10 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
+import com.anu.pam.model.City;
 import com.anu.pam.model.Employee;
 import com.anu.pam.model.EmployeeDetail;
+import com.anu.pam.model.Project;
 import com.anu.pam.util.HibernateSessionUtil;
 
 @Service
@@ -57,9 +59,16 @@ public class EmployeeService {
 	public int createNewEmployee(Employee employee) {
 		Session session = HibernateSessionUtil.getHibernateSession();
 		session.beginTransaction();
+		City city = new City();
+		city.setCityName("Kolkata");
+		employee.setCity(city);
+		
+			
 		
 		int id = (Integer) session.save(employee);
+		session.save(city);
 		
+			
 		session.getTransaction().commit();
 		session.close();
 		return id;
