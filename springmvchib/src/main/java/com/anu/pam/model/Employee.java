@@ -1,5 +1,7 @@
 package com.anu.pam.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -7,7 +9,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+
 
 @Entity
 @Table(name = "EMPLOYEE")
@@ -16,7 +24,12 @@ public class Employee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
+	
+	@OneToOne
+	@JoinColumn(name="city_id")
+	private City city;
+	
+	
 	@Column(name = "FIRST_NAME", nullable = false)
 	private String firstName;
 
@@ -33,6 +46,15 @@ public class Employee {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
+	}
+
 
 	public String getFirstName() {
 		return firstName;
@@ -60,7 +82,7 @@ public class Employee {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(department, firstName, id, lastName);
+		return Objects.hash(city, department, firstName, id, lastName);
 	}
 
 	@Override
@@ -72,16 +94,20 @@ public class Employee {
 		if (getClass() != obj.getClass())
 			return false;
 		Employee other = (Employee) obj;
-		return Objects.equals(department, other.department) && Objects.equals(firstName, other.firstName)
-				&& id == other.id && Objects.equals(lastName, other.lastName);
+		return Objects.equals(city, other.city) && Objects.equals(department, other.department)
+				&& Objects.equals(firstName, other.firstName) && id == other.id
+				&& Objects.equals(lastName, other.lastName);
 	}
 
 	@Override
 	public String toString() {
-		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", department="
-				+ department + "]";
+		return "Employee [id=" + id + ", city=" + city + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", department=" + department + "]";
 	}
+
 	
+
+
 	
 
 }
